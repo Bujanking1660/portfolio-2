@@ -1,0 +1,943 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AWWWARDS EDITORIAL DESIGN SYSTEM
+   ============================================================ */
+
+:root {
+  --canvas: #faf8f5;
+  --canvas-2: #f0ece6;
+  --ink: #1a1a1a;
+  --ink-soft: #6b6860;
+  --line: #e5e0d8;
+  --accent: #c8432e;
+  --font-display: "Bebas Neue", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --maxw: 1280px;
+  --pad: clamp(24px, 5vw, 72px);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    scrollbar-gutter: stable;
+  }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--canvas);
+  }
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+.btn--primary {
+  background: var(--ink);
+  color: var(--canvas);
+}
+.btn--primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  opacity: 0.88;
+}
+.btn--primary:active {
+  transform: translateY(0) scale(0.97);
+}
+.btn--ghost {
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+.btn--ghost:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: var(--ink);
+  color: var(--canvas);
+}
+.btn--ghost:active {
+  transform: translateY(0) scale(0.97);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav-link {
+  position: relative;
+  color: var(--ink-soft);
+  text-decoration: none;
+  opacity: 0;
+  animation: nav-stagger 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--ni, 0) * 70ms + 350ms);
+  transition: color 0.3s ease;
+  text-shadow:
+    0 0 20px var(--canvas),
+    0 0 40px var(--canvas),
+    0 0 60px color-mix(in srgb, var(--canvas) 50%, transparent);
+}
+.nav-link:hover,
+.nav-link.active {
+  color: var(--ink);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--ink);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+@keyframes nav-stagger {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-link {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
+   HERO — MASSIVE DISPLAY TYPE
+   ============================================================ */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 24vw, 28rem);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.hero-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--ld, 0ms);
+}
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(80%) rotate(8deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-letter {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* Hero tagline — clean text, no frosted glass */
+.hero-tagline {
+  color: var(--ink);
+}
+
+/* ============================================================
+   TEXT HIGHLIGHT — background wipe animation
+   ============================================================ */
+.text-highlight {
+  position: relative;
+  display: inline;
+  padding: 0 4px;
+  border-radius: 4px;
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    color-mix(in srgb, var(--accent) 14%, transparent)
+  );
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  animation: highlight-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--hd, 1.2s);
+}
+@keyframes highlight-in {
+  to {
+    background-size: 100% 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-highlight {
+    animation: none;
+    background-size: 100% 100%;
+  }
+}
+
+/* ============================================================
+   SCATTERED POSTER IMAGES
+   ============================================================ */
+.poster {
+  position: absolute;
+  overflow: hidden;
+  border: 6px solid var(--canvas);
+  box-shadow: 0 8px 30px rgba(26, 26, 26, 0.18);
+  rotate: var(--r, 0deg);
+  will-change: rotate;
+  animation: poster-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--pd, 0ms);
+  opacity: 0;
+  transform: scale(0.85) rotate(calc(var(--r, 0deg) + 15deg));
+}
+.poster.is-visible {
+  opacity: 1;
+  transform: scale(1) rotate(var(--r, 0deg));
+}
+@keyframes poster-in {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(var(--r, 0deg));
+  }
+}
+.poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.poster:hover img {
+  transform: scale(1.08);
+}
+@media (prefers-reduced-motion: reduce) {
+  .poster {
+    opacity: 1;
+    animation: none;
+    transform: scale(1) rotate(var(--r, 0deg));
+  }
+}
+
+/* ============================================================
+   PARALLAX (CSS scroll-driven, GPU transform only)
+   ============================================================ */
+@supports (animation-timeline: scroll()) {
+  .parallax-up-1 {
+    animation: p-up-1 linear both;
+    animation-timeline: scroll();
+  }
+  .parallax-up-2 {
+    animation: p-up-2 linear both;
+    animation-timeline: scroll();
+  }
+  .parallax-up-3 {
+    animation: p-up-3 linear both;
+    animation-timeline: scroll();
+  }
+  @keyframes p-up-1 {
+    to {
+      transform: translate(-25px, -90px);
+    }
+  }
+  @keyframes p-up-2 {
+    to {
+      transform: translate(35px, -180px);
+    }
+  }
+  @keyframes p-up-3 {
+    to {
+      transform: translate(-18px, -280px);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax-up-1,
+  .parallax-up-2,
+  .parallax-up-3 {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   SCROLL-TRIGGERED EFFECTS
+   ============================================================ */
+@supports (animation-timeline: view()) {
+  .text-reveal {
+    clip-path: inset(0 100% 0 0);
+    animation: t-wipe linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 90%;
+  }
+  @keyframes t-wipe {
+    to {
+      clip-path: inset(0 0% 0 0);
+    }
+  }
+  .scroll-grow {
+    animation: s-grow linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+  @keyframes s-grow {
+    from {
+      transform: scale(0.88);
+      opacity: 0.4;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .scroll-tilt-left {
+    animation: s-tilt-l linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+  }
+  .scroll-tilt-right {
+    animation: s-tilt-r linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+  }
+  @keyframes s-tilt-l {
+    from {
+      transform: rotate(-3deg) scale(0.96);
+    }
+    to {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+  @keyframes s-tilt-r {
+    from {
+      transform: rotate(3deg) scale(0.96);
+    }
+    to {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+  .scroll-slide-left {
+    animation: s-sl-l linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+  }
+  @keyframes s-sl-l {
+    from {
+      transform: translateX(-60px);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .scroll-slide-right {
+    animation: s-sl-r linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+  }
+  @keyframes s-sl-r {
+    from {
+      transform: translateX(60px);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  /* Number counter scale-in */
+  .scroll-number {
+    animation: n-scale linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+  @keyframes n-scale {
+    from {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Horizontal slide for process steps */
+  .scroll-step {
+    animation: step-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+  @keyframes step-in {
+    from {
+      transform: translateX(-40px) rotate(-2deg);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-reveal,
+  .scroll-grow,
+  .scroll-tilt-left,
+  .scroll-tilt-right,
+  .scroll-slide-left,
+  .scroll-slide-right,
+  .scroll-number,
+  .scroll-step {
+    animation: none;
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   MAGNETIC TILT CARD (3D perspective only, no color overlay)
+   ============================================================ */
+.magnetic-card {
+  position: relative;
+  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .magnetic-card {
+    transition: none;
+  }
+  .magnetic-card:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+}
+.marquee__track {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  animation: marquee 28s linear infinite;
+}
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  padding: 16px 0;
+  color: var(--ink);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.marquee__sep {
+  margin: 0 clamp(16px, 3vw, 40px);
+  color: var(--accent);
+  font-size: 0.5em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================
+   SOCIAL MARKS
+   ============================================================ */
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px 10px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+.social:hover {
+  transform: translateY(-2px);
+  color: var(--ink);
+  border-color: var(--ink);
+  background: var(--canvas-2);
+}
+.social__icon {
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+/* ============================================================
+   SCROLL PROGRESS
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 60;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-progress {
+    animation: progress-grow linear;
+    animation-timeline: scroll();
+  }
+}
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ============================================================
+   QUOTE CARD
+   ============================================================ */
+.quote-card {
+  position: relative;
+  padding: 32px 28px 28px;
+  border-radius: 16px;
+  background: var(--canvas-2);
+  border: 1px solid var(--line);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+.quote-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.quote-card::before {
+  content: "\201C";
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.35;
+}
+
+/* ============================================================
+   HAMBURGER MENU
+   ============================================================ */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 60;
+}
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+.hamburger-line.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger-line.open:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-line.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ============================================================
+   NAV OVERLAY (fullscreen with OptionWheel)
+   ============================================================ */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+}
+.nav-overlay.open {
+  pointer-events: auto;
+}
+.nav-overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--canvas) 92%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.nav-overlay.open .nav-overlay-backdrop {
+  opacity: 1;
+}
+.nav-overlay-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: clamp(60px, 12vw, 160px);
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-overlay.open .nav-overlay-content {
+  transform: translateX(0);
+}
+.nav-overlay-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  z-index: 10;
+}
+.nav-overlay-close:hover {
+  background: var(--canvas-2);
+  border-color: var(--ink);
+}
+.nav-overlay-wheel {
+  width: 100%;
+  height: 70vh;
+  max-width: 600px;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS — additional classes
+   ============================================================ */
+@supports (animation-timeline: view()) {
+  .scroll-fade-up {
+    animation: s-fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 85%;
+  }
+  @keyframes s-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .scroll-fade-left {
+    animation: s-fade-left linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 85%;
+  }
+  @keyframes s-fade-left {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .scroll-fade-right {
+    animation: s-fade-right linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 85%;
+  }
+  @keyframes s-fade-right {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .scroll-scale-in {
+    animation: s-scale-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
+  }
+  @keyframes s-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .scroll-rotate-in {
+    animation: s-rotate-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+  }
+  @keyframes s-rotate-in {
+    from {
+      opacity: 0;
+      transform: rotate(-4deg) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .scroll-parallax-slow {
+    animation: s-p-slow linear both;
+    animation-timeline: scroll();
+  }
+  @keyframes s-p-slow {
+    to {
+      transform: translateY(-40px);
+    }
+  }
+  .scroll-parallax-fast {
+    animation: s-p-fast linear both;
+    animation-timeline: scroll();
+  }
+  @keyframes s-p-fast {
+    to {
+      transform: translateY(-80px);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fade-up,
+  .scroll-fade-left,
+  .scroll-fade-right,
+  .scroll-scale-in,
+  .scroll-rotate-in,
+  .scroll-parallax-slow,
+  .scroll-parallax-fast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   WORK — varied project layouts
+   ============================================================ */
+.work-card-wide {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+.work-card-wide:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.work-card-wide img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-card-wide:hover img {
+  transform: scale(1.04);
+}
+.work-card-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+.work-card-split:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.work-card-split img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-card-split:hover img {
+  transform: scale(1.04);
+}
+@media (max-width: 768px) {
+  .work-card-split {
+    grid-template-columns: 1fr;
+  }
+}
+.work-card-overlay {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 7;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+.work-card-overlay:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.work-card-overlay img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-card-overlay:hover img {
+  transform: scale(1.04);
+}
+.work-number {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 10rem);
+  line-height: 1;
+  color: var(--line);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ============================================================
+   FOOTER — varied contact section
+   ============================================================ */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.footer-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 0;
+  border: none;
+}
+
+/* ============================================================
+   AUDIO PLAYER — album art
+   ============================================================ */
+.audio-album-art {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(26, 26, 26, 0.15);
+}
+.audio-album-art-lg {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 8px 32px rgba(26, 26, 26, 0.2);
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================================
+   TYPEWRITER CURSOR
+   ============================================================ */
+@keyframes blink {
+  50% { opacity: 0; }
+}
