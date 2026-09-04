@@ -9,7 +9,7 @@ export const profile = {
     "I build full-stack applications and AI-powered tools, blending software engineering with data science to solve real-world problems.",
   statement:
     "I work across the stack — from crafting responsive frontends with React and Next.js to designing APIs with FastAPI and Express.js. My passion lies at the intersection of software engineering and data science, building systems that are not only functional but intelligent.",
-  email: "rzkygusnaldy@gmail.com",
+  email: "rizkyagusnaldykaliaa@gmail.com",
   location: "Bandung, Indonesia",
   available: true,
   linkedin: "https://www.linkedin.com/in/rizkya-gusnaldy-kalia",
@@ -22,8 +22,7 @@ export const contactCtaLabel = "Get in touch";
 export const socials = [
   { name: "GitHub", url: "https://github.com/Bujanking1660", icon: "github" },
   { name: "LinkedIn", url: "https://www.linkedin.com/in/rizkya-gusnaldy-kalia", icon: "linkedin" },
-  { name: "X", url: "https://x.com/", icon: "x" },
-  { name: "Dribbble", url: "https://dribbble.com/", icon: "dribbble" },
+  { name: "Instagram", url: "https://instagram.com/rzaldy_k", icon: "instagram" },
 ];
 
 export const projects = [
